@@ -8,6 +8,11 @@
         commands:
           - show running-config
       register: config_output
+    - name: Ensure backup_configs directory exists
+      file:
+        path: ./backup_configs
+        state: directory
+        mode: '0755'
 
     - name: Save configuration to file
       copy:
