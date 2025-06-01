@@ -1,0 +1,17 @@
+---
+- name: Get IOS configuration
+  hosts: cisco_routers
+  gather_facts: no
+  tasks:
+    - name: Retrieve running configuration
+      ios_command:
+        commands:
+          - show running-config
+      register: config_output
+
+    - name: Save configuration to file
+      copy:
+        content: "{{ config_output.stdout }}"
+        dest: "./backup_configs/{{ inventory_hostname }}_running_config.txt"
+
+#ansible-playbook -i inventory.yml get_ios_config.yml
